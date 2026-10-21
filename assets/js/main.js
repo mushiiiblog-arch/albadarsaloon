@@ -1,0 +1,72 @@
+// Al Baddar Barbers — small enhancements; the site works without JS.
+document.documentElement.classList.add('js');
+
+// Reveal sections as they scroll into view
+var io = 'IntersectionObserver' in window && new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { rootMargin: '0px 0px -8% 0px' });
+document.querySelectorAll('.rv').forEach(function (el) { io ? io.observe(el) : el.classList.add('in'); });
+
+// Gallery slider
+var slider = document.querySelector('[data-slider]');
+if (slider) {
+  var slides = slider.querySelectorAll('.slides figure');
+  var thumbs = slider.querySelectorAll('.thumbs button');
+  var num = slider.querySelector('[data-num]');
+  var i = 0, timer;
+  var show = function (n) {
+    i = (n + slides.length) % slides.length;
+    slides.forEach(function (s, k) { s.classList.toggle('on', k === i); });
+    thumbs.forEach(function (t, k) { t.classList.toggle('on', k === i); t.setAttribute('aria-pressed', k === i); });
+    num.textContent = String(i + 1).padStart(2, '0');
+  };
+  var play = function () { clearInterval(timer); timer = setInterval(function () { show(i + 1); }, 4000); };
+  slider.querySelector('[data-prev]').onclick = function () { show(i - 1); play(); };
+  slider.querySelector('[data-next]').onclick = function () { show(i + 1); play(); };
+  thumbs.forEach(function (t, k) { t.onclick = function () { show(k); play(); }; });
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) play();
+}
+
+// Service page photo thumbnails
+var main = document.querySelector('[data-main-img]');
+document.querySelectorAll('.pthumbs button').forEach(function (b, k, all) {
+  b.onclick = function () {
+    main.srcset = b.dataset.srcset;  // srcset wins over src, so both must change
+    main.src = b.dataset.src;
+    all.forEach(function (x) { x.classList.toggle('on', x === b); });
+  };
+});
+
+// Close mobile menu after choosing a link
+document.querySelectorAll('.mnav a').forEach(function (a) {
+  a.addEventListener('click', function () { a.closest('details').open = false; });
+});
+
+var y = document.querySelector('[data-year]');
+if (y) y.textContent = new Date().getFullYear();
+
+// Hero video: self-hosted, muted, looping. Pause when off-screen (saves battery/CPU)
+// and keep it still for visitors who turned on "reduce motion".
+var hv = document.getElementById('hero-video');
+if (hv) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { hv.removeAttribute('autoplay'); hv.pause(); }
+  else if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) {
+      es[0].isIntersecting ? hv.play().catch(function () {}) : hv.pause();
+    }).observe(hv);
+  }
+}
+
+// Contact page: build the WhatsApp message from the form fields
+var book = document.getElementById('book');
+if (book) {
+  book.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var f = book.elements;
+    var lines = ['Hi Al Baddar Barbers, I would like to book an appointment.',
+      'Name: ' + f.name.value, 'Service: ' + f.service.value, 'Day: ' + f.day.value, 'Time: ' + f.time.value];
+    if (f.phone.value) lines.push('Phone: ' + f.phone.value);
+    if (f.message.value) lines.push('Message: ' + f.message.value);
+    window.open('https://wa.me/441273494283?text=' + encodeURIComponent(lines.join('\n')), '_blank', 'noopener');
+  });
+}
