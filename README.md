@@ -27,7 +27,7 @@ site.webmanifest           App icon / theme colour for phones
 
 ## Hero video
 
-`assets/video/hero-hairstyles.webm` (113 KB) and `.mp4` (181 KB, for Safari/older browsers) are served from your own site — no YouTube, so it works everywhere, even when opening `index.html` straight from your computer. It autoplays muted, loops, pauses when scrolled off-screen (saves phone battery) and stays still for visitors who turn on "reduce motion". To swap the video, replace both files with the same names.
+`assets/video/hero-shop.webm` (≈660 KB) and `hero-shop.mp4` (≈730 KB, for Safari) — your vertical shop video, served from your own site (no YouTube), so it works everywhere. It shows a still frame first and only starts downloading after the page has loaded, so it never slows the first screen. It plays muted on a loop, pauses when scrolled off-screen and stays still for visitors who turn on "reduce motion". To swap it, replace both files (and `assets/img/hero-shop-poster.webp`) keeping the same names; vertical 9:16 videos fit the frame best.
 
 ## Speed
 

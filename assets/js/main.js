@@ -48,13 +48,17 @@ if (y) y.textContent = new Date().getFullYear();
 // Hero video: self-hosted, muted, looping. Pause when off-screen (saves battery/CPU)
 // and keep it still for visitors who turned on "reduce motion".
 var hv = document.getElementById('hero-video');
-if (hv) {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) { hv.removeAttribute('autoplay'); hv.pause(); }
-  else if ('IntersectionObserver' in window) {
-    new IntersectionObserver(function (es) {
-      es[0].isIntersecting ? hv.play().catch(function () {}) : hv.pause();
-    }).observe(hv);
-  }
+// Start downloading the video only after the page has loaded, so it never slows the first paint.
+if (hv && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  var startVideo = function () {
+    hv.preload = 'auto';
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) {
+        es[0].isIntersecting ? hv.play().catch(function () {}) : hv.pause();
+      }).observe(hv);
+    } else { hv.play().catch(function () {}); }
+  };
+  document.readyState === 'complete' ? startVideo() : addEventListener('load', startVideo);
 }
 
 // Contact page: build the WhatsApp message from the form fields
