@@ -1,11 +1,12 @@
-# Al Baddar Barbers — website
+# Al-Baddar Barbers — website
 
 A static HTML/CSS website with no build step and no database. Upload the folder as it is to any web host.
 
 ## Files
 
 ```
-index.html                 Home page (hero video, services, gallery, FAQ, contact + map)
+index.html                 Home page (hero video, services, gallery, FAQ, Google reviews, contact + map)
+privacy.html  terms.html    Privacy & Cookie Policy, Terms & Conditions
 about.html                 About Us page (story, why choose us, then & now, team)
 contact.html               Contact page (call / WhatsApp / directions, map, hours, WhatsApp booking form)
 services/*.html            8 service pages (price, details, "Get Appointment" → WhatsApp)
@@ -21,7 +22,7 @@ site.webmanifest           App icon / theme colour for phones
 
 ## Before going live — 3 steps
 
-1. **Set your domain.** These files use `https://www.albaddarbarbers.co.uk` as a placeholder. If your domain is different, use find-and-replace across the folder to change it everywhere. It appears in the canonical tags, the social share tags, the structured data (schema), `sitemap.xml`, `robots.txt` and `.htaccess`.
+1. **Set your domain.** These files use `https://al-baddar.uk`. If your domain is different, use find-and-replace across the folder to change it everywhere. It appears in the canonical tags, the social share tags, the structured data (schema), `sitemap.xml`, `robots.txt` and `.htaccess`.
 2. **Check the WhatsApp number.** Every WhatsApp button opens a chat with `441273494283` (the shop landline). This only works if WhatsApp Business is set up on that number. If you use a mobile instead, replace `wa.me/441273494283` with `wa.me/447XXXXXXXXX` in all the HTML files.
 3. **Upload** everything, including the hidden `.htaccess` file, to your host's public folder (usually `public_html`).
 
@@ -40,7 +41,7 @@ site.webmanifest           App icon / theme colour for phones
 ## After going live — Google
 
 - Add the site to **Google Search Console**, then submit `https://YOUR-DOMAIN/sitemap.xml`.
-- In **Google Business Profile**, set the website link to your domain. Make sure the name, address and phone number match the site exactly: *Al Baddar Barbers, 3 Aleys, High St, Henfield BN5 9HP, 01273 494283*. Matching details across the web help local rankings.
+- In **Google Business Profile**, set the website link to your domain. Make sure the name, address and phone number match the site exactly: *Al-Baddar Barbers, 3 Aleys, High St, Henfield BN5 9HP, 01273494283*. Matching details across the web help local rankings.
 - Test the structured data at https://search.google.com/test/rich-results.
 
 ## Changing prices or opening hours
@@ -62,3 +63,9 @@ No reviews or star ratings are included. Google penalises review markup the site
 ## Privacy note
 
 The YouTube video and the Google map can set cookies once a visitor loads the page. UK sites should have a short privacy/cookie page. Add one before launch, or ask your web developer.
+
+## Cookies, map and reviews (Nov 2026)
+
+- A cookie banner appears 3 seconds after a first visit. The Google map only loads after "Accept all" or "Show map" (UK cookie law); the choice is saved in the browser (`ab-consent`). "Cookie settings" in the footer reopens the banner.
+- The reviews slider shows real Google reviews, written into `index.html` and `contact.html` (search for `class="rcard"`). To add more, copy one `<figure class="rcard">…</figure>` block and change the name and text. Keep the "4.4 from 105 Google reviews" line up to date.
+- Phones load the lighter video `assets/video/hero-shop-mobile.*`; if a phone blocks autoplay (e.g. Low Power Mode), a play button appears.
